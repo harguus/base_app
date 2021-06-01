@@ -9,7 +9,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   final spin = SpinKitFadingCircle(
-    color: Colors.white,
+    color: Colors.black,
     size: 50.0,
   );
 
@@ -31,6 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       child: Center(
         child: spin,
       ),
