@@ -1,7 +1,6 @@
 import 'dart:io';
-
+import 'package:base_app/controller/camera_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class CameraScreen extends StatefulWidget {
   @override
@@ -10,19 +9,6 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   File? _image;
-  final picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        print('Imagem não selecionada');
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +57,13 @@ class _CameraScreenState extends State<CameraScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: getImage,
+        onPressed: () {
+          Camera().captureImage().then((value) {
+            setState(() {
+              _image = value;
+            });
+          });
+        },
         tooltip: "Capturar",
         child: Icon(Icons.add_a_photo),
       ),
