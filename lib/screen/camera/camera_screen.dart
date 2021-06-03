@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'package:base_app/controller/camera_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CameraScreen extends StatefulWidget {
   @override
@@ -8,10 +8,10 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  File? _image;
-
   @override
   Widget build(BuildContext context) {
+    final image =
+        Provider.of<CameraController>(context, listen: false).getFileImage;
     return Scaffold(
       appBar: AppBar(
         title: Text("Câmera"),
@@ -19,49 +19,53 @@ class _CameraScreenState extends State<CameraScreen> {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 8),
         child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(25),
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        offset: Offset(0, 0),
-                        blurRadius: 10,
-                        spreadRadius: 2,
+          child: Consumer<CameraController>(
+            builder: (context, value, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(25),
+                    child: Container(
+                      height: 150,
+                      width: 150,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            offset: Offset(0, 0),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                        border: Border.all(color: Colors.white, width: 5),
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: image.path == ''
+                                ? AssetImage("lib/src/images/person.png")
+                                    as ImageProvider
+                                : FileImage(
+                                    image,
+                                  ),
+                            fit: BoxFit.cover),
                       ),
-                    ],
-                    border: Border.all(color: Colors.white, width: 5),
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: _image == null
-                            ? AssetImage("lib/src/images/person.png")
-                                as ImageProvider
-                            : FileImage(
-                                File(_image!.path),
-                              ),
-                        fit: BoxFit.cover),
+                    ),
                   ),
-                ),
-              ),
-              _image == null
-                  ? Text("Imagem não capturada")
-                  : Image.file(_image!),
-            ],
+                  image.path == ''
+                      ? Text("Imagem não capturada")
+                      : Image.file(image),
+                ],
+              );
+            },
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Camera().captureImage().then((value) {
-            setState(() {
-              _image = value;
-            });
+          Provider.of<CameraController>(context, listen: false)
+              .captureImage()
+              .then((value) {
+            setState(() {});
           });
         },
         tooltip: "Capturar",

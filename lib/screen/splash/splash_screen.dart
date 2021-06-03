@@ -1,4 +1,4 @@
-import 'package:base_app/screen/login/login_screen.dart';
+import 'package:base_app/screen/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
       (value) => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => LoginScreen(),
+          builder: (context) => HomeScreen(),
           // builder: (context) => LoginScreen(),
         ),
       ),
