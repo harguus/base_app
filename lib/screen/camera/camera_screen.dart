@@ -10,6 +10,7 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
+    // listen true atualiza toda a widget, false permanece o ultimo estado.
     final image =
         Provider.of<CameraController>(context, listen: true).getFileImage;
     return Scaffold(
