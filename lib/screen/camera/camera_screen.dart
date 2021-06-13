@@ -11,7 +11,7 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     final image =
-        Provider.of<CameraController>(context, listen: false).getFileImage;
+        Provider.of<CameraController>(context, listen: true).getFileImage;
     return Scaffold(
       appBar: AppBar(
         title: Text("Câmera"),
@@ -62,11 +62,7 @@ class _CameraScreenState extends State<CameraScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Provider.of<CameraController>(context, listen: false)
-              .captureImage()
-              .then((value) {
-            setState(() {});
-          });
+          Provider.of<CameraController>(context, listen: false).captureImage();
         },
         tooltip: "Capturar",
         child: Icon(Icons.add_a_photo),
